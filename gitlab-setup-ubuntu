@@ -1,0 +1,31 @@
+install and configure gitlab on ubuntu 20.04
+
+Expose the ports of container 80:80
+
+sudo apt update
+
+sudo apt install ca-certificates curl openssh-server postfix tzdata perl
+
+cd /tmp
+
+curl -LO https://packages.gitlab.com/install/repositories/gitlab/gitlab-ce/script.deb.sh
+
+sudo bash /tmp/script.deb.sh
+
+sudo apt install gitlab-ce
+
+sudo ufw status
+
+sudo ufw allow http
+
+sudo ufw allow https
+
+sudo ufw allow OpenSSH
+
+sudo ufw status
+
+sudo nano /etc/gitlab/gitlab.rb
+
+/opt/gitlab/embedded/bin/runsvdir-start &
+
+sudo gitlab-ctl reconfigure
