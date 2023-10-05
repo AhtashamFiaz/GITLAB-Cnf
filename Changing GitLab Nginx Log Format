@@ -1,0 +1,35 @@
+Changing GitLab Nginx Log Format
+
+Introduction
+This document provides step-by-step instructions on how to change the log format of GitLab's Nginx logs. Customizing the log format can help you capture specific information for analysis or auditing purposes. The process involves modifying the GitLab configuration and Nginx configuration files.
+
+Steps
+1. Navigate to the GitLab Configuration Directory
+Open a terminal session and navigate to the GitLab configuration directory:
+
+cd /etc/gitlab/
+2. Edit the gitlab.rb Configuration File
+sudo nano gitlab.rb
+
+3. Add the Custom Log Format
+Inside the gitlab.rb file, add or modify the nginx['log_format'] configuration with your desired log format. Here's an example:
+
+nginx['log_format'] = '[$host] [Client-addr=$remote_addr] [Forwarded-For=$http_x_forwarded_for] [Real-IP=$realip_remote_addr] $remote_user [$time_local] "$request_method $request_uri $server_protocol" $status $body_bytes_sent';
+
+4. Save and Exit the Editor
+Save the changes to the gitlab.rb file and exit the text editor.
+5. Reconfigure GitLab
+sudo gitlab-ctl reconfigure
+6. Edit the Nginx Configuration File
+cd /var/opt/gitlab/nginx/conf/
+sudo nano nginx.conf
+7. Add the Same Custom Log Format
+Inside the nginx.conf file, add the same custom log format configuration as you did in gitlab.rb.
+8. Save and Exit the Editor
+Save the changes to the nginx.conf file and exit the text editor.
+9. Reload Nginx Configuration
+Apply the Nginx configuration changes without restarting Nginx by running:
+sudo gitlab-ctl nginx reload
+10. Verify the Log Format
+You can now check the Nginx access logs to verify that the new log format is in use:
+cat /var/opt/gitlab/nginx/logs/gitlab_access.log
